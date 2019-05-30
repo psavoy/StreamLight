@@ -1,0 +1,152 @@
+#' Calculate below canopy PAR
+#' @description This function calculates below canopy PAR
+#'
+#'References
+#'#' \itemize{
+#'   \item Campbell & Norman (1998) An introduction to Environmental biophysics (abbr C&N (1998))
+#'   \item Spitters et al. (1986) Separating the diffuse and direct component of global
+#'         radiation and its implications for modeling canopy photosynthesis: Part I
+#'         components of incoming radiation
+#'   \item Goudriaan (1977)
+#' }
+#' @param driver The model driver file
+#' @param Lat The site Latitude
+#' @param Lon The site Longitude
+#' @param x_LAD Leaf angle distribution, default = 1
+#'
+#' @return Returns a time series of below canopy PAR
+#' @export
+#===============================================================================
+#Calculating light transmission through canopies
+#THIS COULD STAND SOME PERFORMANCE IMPROVEMENTS
+#===============================================================================
+#Wrapper function
+  rad_transfer_calc <- function(driver, Lat, Lon, x_LAD){
+
+    RT_CN_1998 <- function(timestep, Lat, Lon, x_LAD){
+      #Day of the year
+        DOY <- driver[timestep, "DOY"]
+
+      #-------------------------------------------------
+      #Solar geometry
+      #-------------------------------------------------
+        #f for equation of time (see C&N (1998) Eq. 11.4)
+          f <- deg2rad(279.575 + (0.9856 * DOY))
+
+        #Equation of time in minutes (C&N (1998) Eq. 11.4)
+          ET <- (-104.7 * sin(f) + 596.2 * sin(2 * f) + 4.3 * sin(3 * f) -
+            12.7 * sin(4 * f) - 429.3 * cos(f) - 2.0*cos(2 * f) + 19.3 *
+            cos(3 * f)) / 3600.0
+
+        #Longitude correction (see C&N (1998) Eq. 11.3)
+          CM <- c(0, -15, -30, -45, -60, -75, -90, -105, -120, -135)
+          LC <- (Lon - CM[which(abs(CM - Lon) == min(abs(CM - Lon)))]) / 15
+
+        #Solar noon (C&N (1998) Eq. 11.3)
+          solar_noon <- 12 - LC - ET
+
+        #Solar declination (in radians) where J= julian day (C&N (1998) Eq. 11.2)
+          dec <- asin(0.39785 * sin(deg2rad(278.97 + 0.9856 * DOY + 1.9165 *
+            sin(deg2rad(356.6 + 0.9856 * DOY)))))
+
+        #Convert latitude to radians
+          lat_rad <- deg2rad(Lat)
+
+        #Solar zenith angle (in radians) (C&N Eq. 11.1)
+          #NOT SURE I NEED THIS NOTE
+          #NOTE, MAKE LST IN HOUR_MIN, HERE IT ONLY USES HOURS BUT MUST ACCOUNT FOR HALFHOURLY DATA
+          SZA <- acos(sin(lat_rad) * sin(dec) + cos(lat_rad) * cos(dec) *
+            cos(deg2rad(15 * ((driver[timestep, "Hour"] - solar_noon)))))
+
+      #-------------------------------------------------
+      #Partitioning incoming shorwave radiation into beam and diffuse components
+      #Following Spitters et al. (1986)
+      #-------------------------------------------------
+        #Get the solar elevation in radians
+          elev <- 0.5 * pi - SZA
+
+        #Calculate the extra-terrestrial irradiance (Spitters et al. (1986) Eq. 1)
+          Qo <- 1370 * sin(elev) * (1 + 0.033 * cos(deg2rad(360 * DOY / 365)))
+
+        #The relationship between fraction diffuse and atmospheric transmission
+        #Spitters et al. (1986) appendix
+          atm_trns <- driver[timestep, "SW_inc"] / Qo
+          R <- 0.847 - (1.61 * sin(elev)) + (1.04 * sin(elev) * sin(elev))
+            K <- (1.47 - R) / 1.66
+
+          #Spitters et al. (1986) Eqs. 20a-20d
+            diffuse_calc <- function(atm_trns, R, K){
+              if(atm_trns <= 0.22){fdiffuse <- 1.0}
+              if(atm_trns > 0.22 & atm_trns <= 0.35){fdiffuse <- 1.0-(6.4 * (atm_trns - 0.22)*(atm_trns - 0.22))}
+              if(atm_trns > 0.35 & atm_trns <= K){fdiffuse <- 1.47 - (1.66 * atm_trns)}
+              if(atm_trns > K){fdiffuse <- R}
+              return(fdiffuse)
+              } #End diffuse_calc
+
+          #Get the fraction of diffuse radiation
+            frac_diff <- diffuse_calc(atm_trns, R, K)
+
+          #Partition into diffuse and beam radiation
+            rad_diff <- frac_diff * driver[timestep, "SW_inc"] #Diffuse
+              rad_beam <- driver[timestep, "SW_inc"] - rad_diff #Beam
+
+      #-------------------------------------------------
+      #Partition diffuse and beam radiation into PAR following Goudriaan (1977)
+      #-------------------------------------------------
+        I_od <- 0.5 * rad_diff
+        I_ob <- 0.5 * rad_beam
+
+      #-------------------------------------------------
+      #Calculating beam radiation transmitted through the canopy
+      #-------------------------------------------------
+        #Calculate the ratio of projected area to hemi-surface area for an ellipsoid
+        #C&N (1998) Eq. 15.4 sensu Campbell (1986)
+          kbe <- sqrt((x_LAD ^ 2) + (tan(SZA)) ^ 2)/(x_LAD + (1.774 *
+            ((x_LAD + 1.182) ^ -0.733)))
+
+        #Fraction of incident beam radiation penetrating the canopy
+        #C&N (1998) Eq. 15.1 and leaf absorptivity as 0.8 (C&N (1998) pg. 255)
+        #as per Camp
+          tau_b <- exp(-sqrt(0.8) * kbe * driver[timestep, "LAI"])
+
+        #Beam radiation transmitted through the canopy
+          beam_trans <- I_ob * tau_b
+
+      #-------------------------------------------------
+      #Calculating diffuse radiation transmitted through the canopy
+      #-------------------------------------------------
+        #Create a sequence of angles to integrate over
+          angle_seq <- deg2rad(seq(from = 0, to = 89, by = 1))
+
+        #Numerical integration
+          d_SZA <- (pi / 2) / length(angle_seq)
+
+        #Function for performing the integration
+          integ_func <- function(angle, x_LAD, LAI){
+            exp(-(sqrt((x_LAD ^ 2) + (tan(angle)) ^ 2)/(x_LAD + (1.774 *
+              ((x_LAD + 1.182) ^ -0.733)))) * LAI) * sin(angle) * cos(angle) * d_SZA
+          } #End integ_func
+
+        #Diffuse transmission coefficient for the canopy (C&N (1998) Eq. 15.5)
+          tau_d <- 2 * sum(integ_func(angle_seq[1:length(angle_seq)], x_LAD = 1,
+            LAI = driver[timestep, "LAI"]))
+
+        #Extinction coefficient for black leaves in diffuse radiation
+          Kd <- -log(tau_d) / driver[timestep, "LAI"]
+
+        #Diffuse radiation transmitted through the canopy
+          diff_trans <- I_od * exp(-sqrt(0.8) * Kd * driver[timestep, "LAI"])
+
+      #Get the total light transmitted through the canopy
+        transmitted <- beam_trans + diff_trans
+        PPFD <- transmitted * 1/0.235 #Convert from W m-2 to umol m-2 s-1
+        return(PPFD)
+
+    } #End RT_CN_1998 funciton
+
+    #Apply the radiative transfer funciton
+      driver$PAR_bc <- sapply(1:nrow(driver), RT_CN_1998, Lat = Lat, Lon = Lon, x_LAD = x_LAD)
+
+    return(driver)
+
+  } #End rad_transfer function

@@ -1,0 +1,72 @@
+#' SHADE2 model from Li et al. (2012) Modeled riparian stream shading:
+#' Agreement with field measurements and sensitivity to riparian conditions
+#' @description Translation of shdexe.m
+#'
+#' @param driver_file The site driver file
+#' @param Lat The site Latitude
+#' @param Lon The site Longitude
+#' @param stream_azimuth #ADD DETAILS
+#' @param bottom_width #ADD DETAILS
+#' @param BH Bank height
+#' @param BS Bank slope
+#' @param WL Water level
+#' @param overhang Effectively canopy radius
+#' @param TH Tree height
+#' @param overhang_height height of the maximum canopy overhang (think canopy radius)
+#'
+#' @return Returns total percent of the wetted width shaded by the bank and by vegetation
+#' @export
+
+#===============================================================================
+#Running the SHADE2 model from Li et al. (2012) Modeled riparian stream shading:
+#Agreement with field measurements and sensitivity to riparian conditions
+#Created 3/15/2018
+#===============================================================================
+  SHADE2 <- function(driver_file, Lat, Lon, stream_azimuth, bottom_width, BH, BS, WL, TH, overhang, overhang_height){
+    #-------------------------------------------------
+    #Defining solar geometry
+    #-------------------------------------------------
+      solar_geo <- matrix(solar_c(driver_file, Lat, Lon), ncol = 2)
+        colnames(solar_geo) <- c("solar_altitude", "solar_azimuth")
+
+      solar_azimuth <- solar_geo[, "solar_azimuth"]
+      solar_altitude <- solar_geo[, "solar_altitude"]
+
+    #-------------------------------------------------
+    #Taking the difference between the sun and stream azimuth (sun-stream)
+    #-------------------------------------------------
+      #This must be handled correctly to determine if the shadow falls towards the river
+      #[sin(delta)>0] or towards the bank
+        #Eastern shading
+          delta_prime <- solar_azimuth - (stream_azimuth * pi / 180)
+          #if(delta_prime <0) delta_prime<-pi+abs(delta_prime)%%(2*pi)
+          delta_prime[delta_prime < 0] <- pi + abs(delta_prime)%%(2 * pi)
+          delta_east <- delta_prime%%(2 * pi)
+
+        #Western shading
+          ifelse(delta_east < pi,delta_west <- delta_east + pi, delta_west <- delta_east - pi)
+
+    #Calculating shade from the "eastern" bank
+      eastern_shade <- matrix(ncol = 2, shade_calc(delta_east, solar_altitude, bottom_width,
+        BH, BS, WL, TH, overhang, overhang_height))
+
+        east_bank_shade <- eastern_shade[, 1]
+        east_veg_shade <- eastern_shade[, 2] #- eastern_shade[, 1] #PS 7/9/2018
+
+    #Calculating shade from the "eastern" bank
+      western_shade <- matrix(ncol = 2, shade_calc(delta_west, solar_altitude, bottom_width,
+        BH, BS, WL, TH, overhang, overhang_height))
+
+        west_bank_shade <- western_shade[, 1]
+        west_veg_shade <- western_shade[, 2] #- western_shade[, 1] #PS 7/9/2018
+
+    #Getting the total amount of vegetation shading, for now I am ignoring bank shading P.S. 2016
+      total_veg_shade <- east_veg_shade + west_veg_shade
+        total_veg_shade[total_veg_shade > 1] <- 1
+
+      total_bank_shade <- east_bank_shade + west_bank_shade
+        total_bank_shade[total_bank_shade > 1] <- 1
+
+    return(c(total_veg_shade, total_bank_shade))
+
+  } #End SHADE2 function
