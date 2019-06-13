@@ -4,6 +4,10 @@
 #'
 #' @param pred_dir The read directory where model predictions are located, "C:/
 #' @param Site The Site_ID
+#' @param plot Logical indicator. If plot = TRUE, then a timeseries of total daily
+#' light is plotted (mol m-2 d-1) for both incoming and predicted light
+#' @param return Logical indicator. If return = TRUE, then return a data frame
+#' containing daily means and sums of both incoming and predicted light
 #'
 #' @return Returns daily mean (umol m-2 s-1) and total (kmol m-2 d-1) incoming and
 #' predicted light
@@ -11,10 +15,10 @@
 #' @export
 
 #===============================================================================
-#Very rough function to plot model estimates
-#Created 11/6/2018
+#Function to plot daily model estimates
+#Created 6/13/2019
 #===============================================================================
-  plot_light <- function(pred_dir, Site){
+  daily_light <- function(pred_dir, Site, plot, return){
     #Read in predicted
       setwd(pred_dir)
       pred <- readRDS(paste(Site, "_predicted.rds", sep = ""))
@@ -63,14 +67,38 @@
       #Ordering the data
         ordered <- merged[order(merged[, "Year"], merged[, "DOY"]), ]
 
-    #-------------------------------------------------
-    #Plotting
-    #-------------------------------------------------
-      par(mar = c(4, 5, 1.5, 0), oma = c(0, 0, 1, 0.5))
-      plot(ordered[, "Inc_sum"], pch = 20, col = "grey60", ylim = c(0, 80), main = Site,
-        ylab = expression(paste("PAR ", "(kmol", " m"^{-2}, "d"^{-1},")")))
+      #Adding in a date column
+        ordered$Date <-  as.Date(paste(ordered[, "Year"], "-", ordered[, "DOY"],
+          sep = ""), format = "%Y-%j")
 
-      points(ordered[, "Pred_sum"], pch = 20, col = "darkorange")
+    #-------------------------------------------------
+    #Plotting data when plot == "TRUE"
+    #-------------------------------------------------
+      if(plot == TRUE){
+        par(mar = c(4, 5, 0.5, 2), oma = c(0, 0, 1, 0.5))
 
-    return(ordered)
+        plot(ordered[, "Date"], ordered[, "Inc_sum"], pch = 20, col = "grey60",
+          ylim = c(0, 80), ylab = "", xlab = "")
+
+        points(ordered[, "Date"], ordered[, "Pred_sum"], pch = 20,
+          col = "darkorange")
+
+        #Add graphical elements
+          mtext(side = 1, "Date", line = 2)
+          mtext(side = 2, expression(paste("PAR ", "(kmol"," m"^{-2},
+            "d"^{-1},")")), line = 2)
+          mtext(side = 3, Site, line = -1.5, adj = 0.05)
+
+          legend("topright", inset(0.2, 0.2), ncol = 2,
+            xpd = TRUE, c("Incoming", "Predicted"), bty = "n", pch = c(20, 20),
+            col = c("grey60", "darkorange"))
+      } #End if statement
+
+    #Get the final output
+      final <- ordered[, c("Date", "jday", "Year", "DOY", "Inc_mean", "Pred_mean",
+        "Inc_sum", "Pred_sum", "LAI")]
+
+    #Return data
+      if(return == TRUE){return(final)}
+
   } #End
