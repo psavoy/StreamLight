@@ -4,8 +4,8 @@
 \alias{stream_light}
 \title{Model to predict light at the stream surface#'}
 \usage{
-stream_light(driver_file, Lat, Lon, stream_azimuth, bottom_width, BH, BS, WL,
-  TH, overhang, overhang_height, x_LAD)
+stream_light(driver_file, Lat, Lon, stream_azimuth, bottom_width, BH, BS,
+  WL, TH, overhang, overhang_height, x_LAD)
 }
 \arguments{
 \item{driver_file}{The model driver file}
