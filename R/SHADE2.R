@@ -39,8 +39,7 @@
       #[sin(delta)>0] or towards the bank
         #Eastern shading
           delta_prime <- solar_azimuth - (stream_azimuth * pi / 180)
-          #if(delta_prime <0) delta_prime<-pi+abs(delta_prime)%%(2*pi)
-          delta_prime[delta_prime < 0] <- pi + abs(delta_prime)%%(2 * pi)
+          delta_prime[delta_prime < 0] <- pi + abs(delta_prime[delta_prime < 0] )%%(2 * pi) #PS 2019
           delta_east <- delta_prime%%(2 * pi)
 
         #Western shading

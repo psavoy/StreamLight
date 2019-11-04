@@ -68,7 +68,7 @@
         perc_shade_bank <- (stream_shade_bank) / water_width
           perc_shade_bank[perc_shade_bank > 1] <- 1
 
-        perc_shade_veg <- stream_shade_veg_max / water_width
+        perc_shade_veg <- (stream_shade_veg_max - stream_shade_bank) / water_width
           perc_shade_veg[perc_shade_veg > 1] <- 1
 
     return(c(perc_shade_bank, perc_shade_veg))
