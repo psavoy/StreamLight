@@ -4,7 +4,7 @@
 \alias{solar_c}
 \title{Calculates solar geometry for use in the SHADE2 model}
 \usage{
-solar_c(driver_file, Lat, Lon)
+solar_c(driver_file, Lat, Lon, ...)
 }
 \arguments{
 \item{driver_file}{The model driver file}

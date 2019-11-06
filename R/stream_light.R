@@ -17,7 +17,6 @@
 #'
 #' @return Returns a time series of predicted light at the stream surface
 #' @export
-
 #===============================================================================
 #Function for predicting light at the stream surface
 #===============================================================================
@@ -34,7 +33,7 @@
     #-------------------------------------------------
     #Predicting transmission of light through the canopy
     #-------------------------------------------------
-      rad_trans <- rad_transfer_calc(driver_file, Lat, Lon, x_LAD)
+      driver_file$PAR_bc <- RT_CN_1998(driver_file, Lat, Lon, x_LAD)
 
     #-------------------------------------------------
     #Running the SHADE2 model
@@ -44,17 +43,17 @@
         ncol = 2)), c("veg_shade", "bank_shade"))
 
       #Temporary until I figure out the best way to stitch these functions together
-        rad_trans$veg_shade <- shade[, "veg_shade"]
-        rad_trans$bank_shade <- shade[, "bank_shade"]
+        driver_file$veg_shade <- shade[, "veg_shade"]
+        driver_file$bank_shade <- shade[, "bank_shade"]
 
     #Calculating weighted mean of irradiance at the stream surface
-      PAR_inc <- rad_trans[, "SW_inc"] * 2.114 #Convert incoming to PAR
+      PAR_inc <- driver_file[, "SW_inc"] * 2.114 #Convert incoming to PAR
 
-      rad_trans$PAR_stream <- (rad_trans[, "PAR_bc"] * rad_trans[, "veg_shade"]) +
-        (PAR_inc * (1 - rad_trans[, "veg_shade"]))
+      driver_file$PAR_stream <- (driver_file[, "PAR_bc"] * driver_file[, "veg_shade"]) +
+        (PAR_inc * (1 - driver_file[, "veg_shade"]))
 
     #Getting the output
-      return(rad_trans)
+      return(driver_file)
 
   } #End stream_light function
 

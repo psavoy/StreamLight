@@ -7,51 +7,41 @@
 #'
 #' @return Returns solar altitude, azimuth, and declination
 #' @export
-
 #===============================================================================
 #Calculating solar position and sun-stream geometry
-#Created 11/30/2017
+#Created 11/5/2019
 #===============================================================================
-  solar_c <- function(driver_file, Lat, Lon){
-    #Getting numerical day
-      jdate <- (driver_file[, "DOY"] - 1) + (driver_file[, "Hour"] / 24)
+  solar_c <- function(driver_file, Lat, Lon, ...){
+    #Calculate the solar altitude, declination, and initial estimate of solar azimuth
+      geo_initial <- solar_geo_calc(driver_file, Lat, Lon)
+      
+    #Add a column to store the adjusted azimuth
+     geo_initial$solar_azimuth <- NA     
 
-    #Getting the offset
-      tz_offset <- driver_file[, "offset"]
-
-    #-------------------------------------------------
-    #Defining solar geometry
-    #-------------------------------------------------
-      #Solar declination
-        solar_dec <- 23.45 * ((pi) / 180) * sin(((2 * pi) * (jdate + 284)) / 365.25)
-
-      #Calculating true solar time
-        #Mean solar time (I'll come back and revisit this and replace it with something else)
-          MST <- jdate + ((Lon - tz_offset * 15) / 361)
-
-        #Equation of time
-          B <- (pi / 182) * (jdate - 81)
-          EOT <- ((9.87 * sin(2 * B)) - (7.53 * cos(B)) - (1.5 * sin(B))) / 1440
-
-        #True solar time
-          TST <- MST + EOT
-
-      #Solar altitude (The way I originally coded it is commented out)
-         #solar_altitude<-asin(sin(solar_dec)*sin(lat*(pi/180))-cos(solar_dec)*cos(lat*(pi/180))*cos(2*pi*TST))
-
-        #This is an adjustment from the Li (2006) code which deals with negative solar altitudes
-          sin_solar_altitude <- (sin(solar_dec) * sin(Lat * (pi / 180)) - cos(solar_dec) *
-              cos(Lat * (pi / 180)) * cos(2 * pi * TST))
-
-          sin_solar_altitude[sin_solar_altitude < 0] <- 0
-          solar_altitude <- asin(sin_solar_altitude)
-
-      #Solar azimuth (The +/- depends on the solar azimuth angle, see pg. 145 in Li (2012))
-        solar_azimuth2 <- acos((cos(solar_dec) * sin(2 * pi * TST)) / cos(solar_altitude))
-        ifelse(solar_azimuth2 + (pi / 2) >= (pi / 2) & solar_azimuth2 + (pi / 2) <= 1.5 * pi,
-          solar_azimuth <- (pi / 2) + solar_azimuth2,
-          solar_azimuth <- (pi / 2) - solar_azimuth2)
-
-    return(c(solar_altitude, solar_azimuth))
-
-  } #End solar_c
+    #When Latitude is > solar declination additional considerations are required to 
+    #determine the correct azimuth
+    #Generate a logical index where Latitude is greater than solar declination 
+      lat_greater <- deg2rad(Lat) > geo_initial[, "solar_dec"]  
+    
+    #Add a small amount of time (1 minute) and recalculate azimuth 
+      azimuth_tmp <- azimuth_adj(driver_file = driver_file[lat_greater, ], Lat = Lat, Lon = Lon)
+     
+    #Generate a logical index where azimuth_tmp is greater than the initial estimate
+      az_tmp_greater <- azimuth_tmp > geo_initial[lat_greater, "solar_azimuth2"] 
+    
+    #Generate a logical index where both Lat > solar_dec & azimuth_tmp > azimuth
+      add_az <- lat_greater == TRUE & az_tmp_greater == TRUE
+      geo_initial[add_az, "solar_azimuth"] <- (pi / 2) + geo_initial[add_az, "solar_azimuth2"]
+     
+      
+      sub_az <- lat_greater == TRUE & az_tmp_greater == FALSE
+      geo_initial[sub_az, "solar_azimuth"] <- (pi / 2) - geo_initial[sub_az, "solar_azimuth2"]
+    
+    #When Latitude is < solar declination all angles are 90 - azimuth
+      geo_initial[!lat_greater, "solar_azimuth"] <- (pi / 2) - driver_file[!lat_greater, "solar_azimuth2"]
+    
+      
+    return(geo_initial[, c("solar_altitude", "solar_azimuth")])
+      
+  } #End solar_c function
+  

@@ -16,7 +16,6 @@
 #'
 #' @return Returns total percent of the wetted width shaded by the bank and by vegetation
 #' @export
-
 #===============================================================================
 #Running the SHADE2 model from Li et al. (2012) Modeled riparian stream shading:
 #Agreement with field measurements and sensitivity to riparian conditions
@@ -26,8 +25,7 @@
     #-------------------------------------------------
     #Defining solar geometry
     #-------------------------------------------------
-      solar_geo <- matrix(solar_c(driver_file, Lat, Lon), ncol = 2)
-        colnames(solar_geo) <- c("solar_altitude", "solar_azimuth")
+      solar_geo <- solar_c(driver_file, Lat, Lon) #PS 2019
 
       solar_azimuth <- solar_geo[, "solar_azimuth"]
       solar_altitude <- solar_geo[, "solar_altitude"]

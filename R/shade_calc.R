@@ -13,7 +13,6 @@
 #'
 #' @return Returns percent of the wetted width shaded by the bank and by vegetation
 #' @export
-
 #===============================================================================
 #Calculating the percent of the wetted width shaded by banks and vegetation. Corresponds
 #to r_shade in the matlab code
