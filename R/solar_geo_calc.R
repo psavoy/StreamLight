@@ -1,15 +1,15 @@
-#' Calculates solar geometry for use in the SHADE2 model
-#' @description This function feeds into the solar_c function and calculates
-#' the solar altitude, solar azimuth, and the solar declination
-#' angle. The calculated solar azimuth is a first estimate that needs to be
-#' adjusted in solar_c based on latitude and the solar declination angle.
-#' Based on the original solarC.m matlab code.
+#' Calculates solar geometry
+#' @description This function calculates solar declination, altitude,
+#' zenith angle, and an initial estimate of azimuth. This initial estimate
+#' of solar azimuth is passed to the solar_c function where it is adjusted
+#' based on latitude and the solar declination angle. This code is based on
+#' the original solarC.m matlab code.
 #'
 #' @param driver_file The model driver file
 #' @param Lat The site Latitude
 #' @param Lon The site Longitude
 #'
-#' @return Returns solar altitude, an initial estimate of azimuth, and declination
+#' @return Returns solar declination, altitude, zenith angle, and an initial estimate of azimuth
 #' @export
 #===============================================================================
 #Calculating solar position and sun-stream geometry
@@ -46,9 +46,12 @@
 
           solar_altitude <- asin(sin_solar_altitude)
 
+        #Solar zenith angle
+          SZA <- 0.5 * pi - solar_altitude
+
       #First estimate of solar azimuth that will be modified in solar_c.R
         solar_azimuth2 <- acos((cos(solar_dec) * sin(2 * pi * TST)) / cos(solar_altitude))
-        
-    return(data.frame(solar_altitude, solar_azimuth2, solar_dec))
-        
+
+    return(data.frame(solar_dec, solar_altitude, SZA, solar_azimuth2))
+
   } #End solar_geo_calc function

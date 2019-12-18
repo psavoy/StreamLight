@@ -2,7 +2,7 @@
 % Please edit documentation in R/solar_geo_calc.R
 \name{solar_geo_calc}
 \alias{solar_geo_calc}
-\title{Calculates solar geometry for use in the SHADE2 model}
+\title{Calculates solar geometry}
 \usage{
 solar_geo_calc(driver_file, Lat, Lon)
 }
@@ -14,12 +14,12 @@ solar_geo_calc(driver_file, Lat, Lon)
 \item{Lon}{The site Longitude}
 }
 \value{
-Returns solar altitude, an initial estimate of azimuth, and declination
+Returns solar declination, altitude, zenith angle, and an initial estimate of azimuth
 }
 \description{
-This function feeds into the solar_c function and calculates
-the solar altitude, solar azimuth, and the solar declination
-angle. The calculated solar azimuth is a first estimate that needs to be
-adjusted in solar_c based on latitude and the solar declination angle.
-Based on the original solarC.m matlab code.
+This function calculates solar declination, altitude,
+zenith angle, and an initial estimate of azimuth. This initial estimate
+of solar azimuth is passed to the solar_c function where it is adjusted
+based on latitude and the solar declination angle. This code is based on
+the original solarC.m matlab code.
 }
