@@ -4,8 +4,17 @@
 \alias{shade_calc}
 \title{Calculating the percent of the wetted width shaded by banks and vegetation}
 \usage{
-shade_calc(delta, solar_altitude, bottom_width, BH, BS, WL, TH, overhang,
-  overhang_height)
+shade_calc(
+  delta,
+  solar_altitude,
+  bottom_width,
+  BH,
+  BS,
+  WL,
+  TH,
+  overhang,
+  overhang_height
+)
 }
 \arguments{
 \item{delta}{difference between the sun and stream azimuth (sun-stream)}

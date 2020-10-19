@@ -5,8 +5,19 @@
 \title{SHADE2 model from Li et al. (2012) Modeled riparian stream shading:
 Agreement with field measurements and sensitivity to riparian conditions}
 \usage{
-SHADE2(driver_file, Lat, Lon, stream_azimuth, bottom_width, BH, BS, WL, TH,
-  overhang, overhang_height)
+SHADE2(
+  driver_file,
+  Lat,
+  Lon,
+  stream_azimuth,
+  bottom_width,
+  BH,
+  BS,
+  WL,
+  TH,
+  overhang,
+  overhang_height
+)
 }
 \arguments{
 \item{driver_file}{The site driver file}
