@@ -8,7 +8,12 @@ Description: This package contains a model for predicting light reaching the sur
     of streams (StreamLight) as detailed in Savoy et al. (in review).
 License: CC0
 URL: https://github.com/psavoy/StreamLight
-Imports:
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.0
+Depends: 
+    R (>= 2.10)
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
