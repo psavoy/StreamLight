@@ -2,10 +2,11 @@
 #' Agreement with field measurements and sensitivity to riparian conditions
 #' @description Translation of shdexe.m
 #'
-#' @param driver_file The site driver file
+#' @param driver The site driver file
+#' @param solar Solar geometry, calculated from solar_geo_calc.R
 #' @param Lat The site Latitude
 #' @param Lon The site Longitude
-#' @param stream_azimuth #ADD DETAILS
+#' @param channel_azimuth Channel azimuth
 #' @param bottom_width #ADD DETAILS
 #' @param BH Bank height
 #' @param BS Bank slope
@@ -21,14 +22,14 @@
 #Agreement with field measurements and sensitivity to riparian conditions
 #Created 3/15/2018
 #===============================================================================
-  SHADE2 <- function(driver_file, Lat, Lon, stream_azimuth, bottom_width, BH, BS, WL, TH, overhang, overhang_height){
+  SHADE2 <- function(driver, solar, Lat, Lon, channel_azimuth, bottom_width, BH, BS, WL, TH, overhang, overhang_height){
     #-------------------------------------------------
     #Defining solar geometry
     #-------------------------------------------------
-      solar_geo <- solar_c(driver_file, Lat, Lon) #PS 2019
+      SHD_solar_geo <- solar_c(driver, solar, Lat, Lon) #PS 2019
 
-      solar_azimuth <- solar_geo[, "solar_azimuth"]
-      solar_altitude <- solar_geo[, "solar_altitude"]
+      solar_azimuth <- SHD_solar_geo[, "solar_azimuth"]
+      solar_altitude <- SHD_solar_geo[, "solar_altitude"]
 
     #-------------------------------------------------
     #Taking the difference between the sun and stream azimuth (sun-stream)
@@ -36,7 +37,7 @@
       #This must be handled correctly to determine if the shadow falls towards the river
       #[sin(delta)>0] or towards the bank
         #Eastern shading
-          delta_prime <- solar_azimuth - (stream_azimuth * pi / 180)
+          delta_prime <- solar_azimuth - (channel_azimuth * pi / 180)
           delta_prime[delta_prime < 0] <- pi + abs(delta_prime[delta_prime < 0] )%%(2 * pi) #PS 2019
           delta_east <- delta_prime%%(2 * pi)
 

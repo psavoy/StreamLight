@@ -6,10 +6,11 @@
 Agreement with field measurements and sensitivity to riparian conditions}
 \usage{
 SHADE2(
-  driver_file,
+  driver,
+  solar,
   Lat,
   Lon,
-  stream_azimuth,
+  channel_azimuth,
   bottom_width,
   BH,
   BS,
@@ -20,13 +21,15 @@ SHADE2(
 )
 }
 \arguments{
-\item{driver_file}{The site driver file}
+\item{driver}{The site driver file}
+
+\item{solar}{Solar geometry, calculated from solar_geo_calc.R}
 
 \item{Lat}{The site Latitude}
 
 \item{Lon}{The site Longitude}
 
-\item{stream_azimuth}{#ADD DETAILS}
+\item{channel_azimuth}{Channel azimuth}
 
 \item{bottom_width}{#ADD DETAILS}
 

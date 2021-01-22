@@ -8,7 +8,7 @@ stream_light(
   driver_file,
   Lat,
   Lon,
-  stream_azimuth,
+  channel_azimuth,
   bottom_width,
   BH,
   BS,
@@ -26,7 +26,7 @@ stream_light(
 
 \item{Lon}{The site Longitude}
 
-\item{stream_azimuth}{#ADD DETAILS}
+\item{channel_azimuth}{#ADD DETAILS}
 
 \item{bottom_width}{#ADD DETAILS}
 

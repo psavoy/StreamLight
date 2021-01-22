@@ -10,8 +10,7 @@
 #'   \item Goudriaan (1977)
 #' }
 #' @param driver_file The model driver file
-#' @param Lat The site Latitude
-#' @param Lon The site Longitude
+#' @param solar_geo Solar geometry, calculated from solar_geo_calc.R
 #' @param x_LAD Leaf angle distribution, default = 1
 #'
 #' @return Returns a time series of below canopy PAR
@@ -19,13 +18,10 @@
 #===============================================================================
 #Calculating light transmission through canopies
 #===============================================================================
-  RT_CN_1998 <- function(driver_file, Lat, Lon, x_LAD, ...){
+  RT_CN_1998 <- function(driver_file, solar_geo, x_LAD, ...){
     #-------------------------------------------------
-    #Solar geometry
+    #Defining solar geometry
     #-------------------------------------------------
-      #Calculate the solar geometry
-        solar_geo <- solar_geo_calc(driver_file, Lat, Lon)
-
       #Solar zenith angle
         SZA <- solar_geo[, "SZA"]
 

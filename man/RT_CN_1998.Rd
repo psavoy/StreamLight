@@ -4,14 +4,12 @@
 \alias{RT_CN_1998}
 \title{Calculate below canopy PAR}
 \usage{
-RT_CN_1998(driver_file, Lat, Lon, x_LAD, ...)
+RT_CN_1998(driver_file, solar_geo, x_LAD, ...)
 }
 \arguments{
 \item{driver_file}{The model driver file}
 
-\item{Lat}{The site Latitude}
-
-\item{Lon}{The site Longitude}
+\item{solar_geo}{Solar geometry, calculated from solar_geo_calc.R}
 
 \item{x_LAD}{Leaf angle distribution, default = 1}
 }
