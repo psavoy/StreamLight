@@ -181,7 +181,7 @@ library("StreamLight")
 2. On the next page select Start a new request
 3. The NC_sites.csv that was exported can now simply be drag-and-dropped to populate a list of sites. You may notice that special characters like "_" are removed from the ID field, don't worry this is ok. 
 
-![](images/drag and drop.png)
+![](images/drag_and_drop.png)
 
 ![](images/drag and drop results.png)
 
@@ -189,7 +189,7 @@ library("StreamLight")
 5. If possible, **it is advisable to select dates with some time on either side of the desired period to estimate light**. This is to help constrain some of the LAI processing steps such as interpolating to daily values. For example, if I wanted to run the model for 2015 I might download LAI data from 2014-2016.
 6. Type MCD15A3H into the layers search box and select the product. Add all of the layers to the selected layers.    
 
-      ![](images/filled request submission.png)
+      ![](images/filled_request_submission.png)
 
 ​	Once everything is filled out submit the request. You will recieve an email notification of the request and then a second notification when the download is ready. Downloads are typically ready the same day or within a day or two depending on the size of the request. For reference, the request in this example only took 15 minutes the complete.
 
@@ -275,7 +275,7 @@ Let's take a moment to examine the final structure of the driver file
   head(NC_NHC_driver)
 ```
 
-|        The columns are as follows: 
+The columns are as follows: 
 
 - "local_time" A POSIXct object in local time
 - "offset" The offset of local time from UTC, used in the **<span style="color:DarkOrange">solar_c function</span>**
@@ -320,7 +320,7 @@ Let's take a moment to examine the final structure of the driver file
 
 Example of deriving azimuth, note the first azimuth of the first example is 45$^\circ$ whereas the second example is 315$^\circ$.      
 
-​												![](images/measuring stream azimuth.png)  
+​												![](images/measuring_stream_azimuth.png)  
 
 ### **3.1.2 Width (*<span style="color:#009faf">bottom_width</span>*)**
 
