@@ -30,23 +30,22 @@
 
 ## **1.1 Overview of the <span style="color:DarkOrange">stream_light</span> function**
 
-​	First, let's take a look at the **<span style="color:DarkOrange">stream_light</span>**  function which has the following structure:
+First, let's take a look at the **<span style="color:DarkOrange">stream_light</span>**  function which has the following structure:
 
-​	**<span style="color:DarkOrange">stream_light</span>**(*<span style="color:#009faf">driver_file</span>*, *<span style="color:#009faf">Lat</span>*, *<span style="color:#009faf">Lon</span>*, *<span style="color:#009faf">channel_azimuth</span>*, *<span style="color:#009faf">bottom_width</span>*, *<span style="color:#009faf">BH</span>*, *<span style="color:#009faf">BS</span>*, *<span style="color:#009faf">WL</span>*, *<span style="color:#009faf">TH</span>*, *<span style="color:#009faf">overhang_height</span>*, *<span style="color:#009faf">x_LAD</span>*) 
+**<span style="color:DarkOrange">stream_light</span>**(*<span style="color:#009faf">driver_file</span>*, *<span style="color:#009faf">Lat</span>*, *<span style="color:#009faf">Lon</span>*, *<span style="color:#009faf">channel_azimuth</span>*, *<span style="color:#009faf">bottom_width</span>*, *<span style="color:#009faf">BH</span>*, *<span style="color:#009faf">BS</span>*, *<span style="color:#009faf">WL</span>*, *<span style="color:#009faf">TH</span>*, *<span style="color:#009faf">overhang_height</span>*, *<span style="color:#009faf">x_LAD</span>*) 
 
-​		$\circ$ *<span style="color:#009faf">driver_file</span>* The model driver file
-​		 $\circ$ *<span style="color:#009faf">Lat</span>* The site latitude
-​		$\circ$ *<span style="color:#009faf">Lon</span>* The site longitude
-​		$\circ$ *<span style="color:#009faf">channel_azimuth</span>* Channel azimuth
-​		$\circ$ *<span style="color:#009faf">bottom_width</span>* Bottom width (m)
-​		$\circ$ *<span style="color:#009faf">BH</span>* Bank height (m)
-​		$\circ$ *<span style="color:#009faf">BS</span>* Bank slope
-​		$\circ$ *<span style="color:#009faf">WL</span>* Water level (m)
-​		$\circ$ *<span style="color:#009faf">TH</span>* Tree height (m)
-​		$\circ$ *<span style="color:#009faf">overhang</span>* Maximum canopy overhang (m)
-​		$\circ$ *<span style="color:#009faf">overhang_height</span>* Height of the maximum canopy overhang (m). If overhang_height = NA, 
-​		then the model defaults to a value of 75% of tree height.
-​		$\circ$ *<span style="color:#009faf">x_LAD</span>* Leaf angle distribution, default = 1
+- *<span style="color:#009faf">driver_file</span>* The model driver file
+- *<span style="color:#009faf">Lat</span>* The site latitude
+- *<span style="color:#009faf">Lon</span>* The site longitude
+- *<span style="color:#009faf">channel_azimuth</span>* Channel azimuth
+- *<span style="color:#009faf">bottom_width</span>* Bottom width (m)
+- *<span style="color:#009faf">BH</span>* Bank height (m)
+- *<span style="color:#009faf">BS</span>* Bank slope
+- *<span style="color:#009faf">WL</span>* Water level (m)
+- *<span style="color:#009faf">TH</span>* Tree height (m)
+- *<span style="color:#009faf">overhang</span>* Maximum canopy overhang (m)
+- *<span style="color:#009faf">overhang_height</span>* Height of the maximum canopy overhang (m). If overhang_height = NA, then the model defaults to a value of 75% of tree height.
+- *<span style="color:#009faf">x_LAD</span>* Leaf angle distribution, default = 1
 
 ​	The first argument for the function (*<span style="color:#009faf">driver_file</span>*) is a standardized model driver file that contains total
 incoming irradiance (W m^-2^) and leaf area index (LAI) (m^2^ m^-2^) which are used as model inputs. The remaining arguments in the function are parameters that describe site characteristics. On the surface this seems like a large number of parameters;however, section 3 of this tutorial provides more indepth information on each of these parameters and some simplifying assumptions that can be used to reduce the number of necessary parameters.
@@ -183,7 +182,7 @@ library("StreamLight")
 
 ![](images/drag_and_drop.png)
 
-![](images/drag and drop results.png)
+![](images/drag_and_drop_results.png)
 
 4. Next, begin filling in the remaining information to submit a request including a name, Start Date, End Date, and the Selected layers. 
 5. If possible, **it is advisable to select dates with some time on either side of the desired period to estimate light**. This is to help constrain some of the LAI processing steps such as interpolating to daily values. For example, if I wanted to run the model for 2015 I might download LAI data from 2014-2016.
