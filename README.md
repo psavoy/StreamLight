@@ -1,6 +1,10 @@
-# **1. Overview**
+# 1. Overview
 
 ​	Running the **StreamLight** model requires a parameter file that describes various site characteristics and a driver file that contains inputs into the model. For convenience, a series of functions have been included in the companion package **StreamLightUtils** to derive some of the values required for parameter files and to create standardized driver files for use with **StreamLight**. Remotely sensed data products with good broadscale coverage are used to derive these inputs within **StreamLightUtils**, but there are of course many potential sources for similar data that could be used to create driver files and users are welcome to create their own workflow for creating driver or parameter files. This tutorial uses two sites from North Carolina to work through using **StreamLightUtils** to create standardized model driver files, creating parameter files, and generating estimates using **StreamLight**. An outline of topics covered in this tutorial are presented below:
+
+**Usage:** If you use **StreamLight** in your research please cite this package and the associated manuscript in *Freshwater Science* (Savoy et al. 2020, *in press*). To see the suggested citation for this package, run citation("StreamLight") in the R prompt.
+
+A fully indexed .pdf version of this README file is also located in the root directory for the package.
 
 **<font size="+2">Outline</font>**
 
@@ -18,7 +22,7 @@
     
     2.3  Creating a standardized driver file
 
-3.  **Preparing site parameters**
+3.  **Preparing a parameter file**
 
     3.1  Parameter descriptions and values
 
@@ -48,7 +52,7 @@ First, let's take a look at the **<span style="color:DarkOrange">stream_light</s
 - *<span style="color:#009faf">x_LAD</span>* Leaf angle distribution, default = 1
 
 ​	The first argument for the function (*<span style="color:#009faf">driver_file</span>*) is a standardized model driver file that contains total
-incoming irradiance (W m^-2^) and leaf area index (LAI) (m^2^ m^-2^) which are used as model inputs. The remaining arguments in the function are parameters that describe site characteristics. On the surface this seems like a large number of parameters;however, section 3 of this tutorial provides more indepth information on each of these parameters and some simplifying assumptions that can be used to reduce the number of necessary parameters.
+incoming irradiance (W m<sup>-2</sup>) and leaf area index (LAI) (m^2^ m^-2^) which are used as model inputs. The remaining arguments in the function are parameters that describe site characteristics. On the surface this seems like a large number of parameters;however, section 3 of this tutorial provides more indepth information on each of these parameters and some simplifying assumptions that can be used to reduce the number of necessary parameters. 
 
 ## **1.2 Getting started**
 
