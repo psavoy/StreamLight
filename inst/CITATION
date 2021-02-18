@@ -3,11 +3,7 @@ citHeader("To cite StreamLight in publications use:")
 citEntry(
   entry    = "Manual",
   author   = personList(
-    as.person("Phil Savoy"),
-    as.person("Emily Bernhardt"),
-    as.person("Lily Kirk"),
-    as.person("Matthew Cohen"),
-    as.person("James Heffernan")
+    as.person("Phil Savoy")
   ),
   title    = "StreamLight: An R package for estimating stream lighting conditions",
   note = "R package version 0.1.1",
