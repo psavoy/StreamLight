@@ -2,14 +2,12 @@ citHeader("To cite StreamLight in publications use:")
 
 citEntry(
   entry    = "Manual",
-  author   = personList(
-    as.person("Phil Savoy")
-  ),
+  author   = as.person("Phil Savoy"),
   title    = "StreamLight: An R package for estimating stream lighting conditions",
   note = "R package version 0.1.1",
   year     = "2021",
   url      = "https://github.com/psavoy/StreamLight",
-  textVersion = paste("Savoy et al. (2021). StreamLight: An R package for estimating stream lighting conditions. R package version 0.1.1. https://github.com/psavoy/StreamLight"
+  textVersion = paste("Savoy, P. (2021). StreamLight: An R package for estimating stream lighting conditions. R package version 0.1.1. https://github.com/psavoy/StreamLight"
 
   )
 )
