@@ -6,6 +6,8 @@
 
 A fully indexed .pdf version of this README file is also located in the root directory for the package.
 
+**Package support:** Development of the **StreamLight** package has been supported by a National Science Foundation (NSF) Macrosystem Program Grant (#EF 1442439) and by the USGS Water Availability and Use Science Program.
+
 **<font size="+2">Outline</font>**
 
 1.  **Overview and getting started**
