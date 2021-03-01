@@ -4,4 +4,4 @@
 #===============================================================================
 #Helper functions for conversions between angles and radians
 #===============================================================================
-  rad2deg <- function(x){return(x * 180 / pi)}
+rad2deg <- function(x){return(x * 180 / pi)}
