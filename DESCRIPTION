@@ -1,7 +1,7 @@
 Package: StreamLight
 Type: Package
 Title: An R Package for Estimating Stream Lighting Conditions
-Version: 0.1.1
+Version: 0.1.2
 Date: 2021-1-15
 Author: Phil Savoy
 Description: This package contains a model for predicting light reaching the surface

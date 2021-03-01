@@ -18,58 +18,62 @@
 #to r_shade in the matlab code
 #Created 3/15/2018
 #===============================================================================
-  shade_calc <- function(delta, solar_altitude, bottom_width, BH, BS, WL, TH, overhang, overhang_height){
-    #-------------------------------------------------
-    #Calculating the shading produced by the bank
-    #-------------------------------------------------
-      #Calculating the length of the shadow perpendicular to the bank produced by the bank
-        bank_shadow_length <- (1 / tan(solar_altitude)) * (BH - WL) * sin(delta)
+shade_calc <- function(delta, solar_altitude, bottom_width, BH, BS, WL, TH, overhang, overhang_height){
+  #-------------------------------------------------
+  #Doing some housekeeping related to bankfull and wetted widths
+  #This is redundant from SHADE2.R, but leaving here for now while testing
+  #-------------------------------------------------
+    #Calculate bankfull width
+      bankfull_width <- bottom_width + ((BH/BS)*2)
 
-      #Finding the amount of exposed bank in the horizontal direction
-        exposed_bank <- (BH - WL) / BS
-          #if(BH - WL <= 0 | BS == 0) exposed_bank <- 0 #P.S. , commented this out because
-          #I think I assumed that this couldn't be negative even if its confusing to be so
+    #Setting WL > BH, = BH
+      WL[WL > BH] <- BH
 
-      #Finding how much shade falls on the surface of the water
-        stream_shade_bank <- bank_shadow_length - exposed_bank
-        stream_shade_bank[stream_shade_bank < 0] <- 0
+    #Calculate wetted width
+      water_width <- bottom_width + WL*(1/BS + 1/BS)
 
-    #-------------------------------------------------
-    #Calculating the shading produced by the Vegetation
-    #-------------------------------------------------
-      #From top of the tree
-        stream_shade_top <- (1 / tan(solar_altitude)) * (TH + BH - WL) * sin(delta) - exposed_bank
-          stream_shade_top[stream_shade_top < 0] <- 0
+    #Setting widths > bankfull, = bankfull
+      water_width[water_width > bankfull_width] <- bankfull_width
 
-      #From the overhang
-        stream_shade_overhang <- (1 / tan(solar_altitude)) * (overhang_height + BH - WL)*
-          sin(delta) + overhang - exposed_bank
-          stream_shade_overhang[stream_shade_overhang < 0] <- 0
+  #-------------------------------------------------
+  #Calculating the shading produced by the bank
+  #-------------------------------------------------
+    #Calculating the length of the shadow perpendicular to the bank produced by the bank
+      bank_shadow_length <- (1 / tan(solar_altitude)) * (BH - WL) * sin(delta)
 
-      #Selecting the maximum and minimum
-        veg_shade_bound <- matrix(ncol = 2, c(stream_shade_top, stream_shade_overhang))
+    #Finding the amount of exposed bank in the horizontal direction
+      exposed_bank <- (BH - WL) / BS
+        #if(BH - WL <= 0 | BS == 0) exposed_bank <- 0 #P.S. , commented this out because
+        #I think I assumed that this couldn't be negative even if its confusing to be so
 
-        #Maximum
-        #Note, here I take a departure from the r_shade matlab code. For some reason the code
-        #Takes the maximum - min shadow length, but in the paper text it clearly states max
-        #See pg 14 Li et al. (2012)
-          stream_shade_veg_max <- apply(veg_shade_bound, 1, FUN = max)
+    #Finding how much shade falls on the surface of the water
+      stream_shade_bank <- bank_shadow_length - exposed_bank
+      stream_shade_bank[stream_shade_bank < 0] <- 0
 
-          #If the maximum shadow length is longer than the wetted width, set to width
-            stream_shade_veg_max[stream_shade_veg_max > bottom_width + WL * (1/BS + 1/BS)] <- bottom_width + WL*(1/BS + 1/BS)
+  #-------------------------------------------------
+  #Calculating the shading produced by the Vegetation
+  #-------------------------------------------------
+    #From top of the tree
+      stream_shade_top <- (1 / tan(solar_altitude)) * (TH + BH - WL) * sin(delta) - exposed_bank
+        stream_shade_top[stream_shade_top < 0] <- 0
 
-    #-------------------------------------------------
-    #Calculating the percentage of water that is shaded
-    #-------------------------------------------------
-      #Calculating the width of the water surface assuming it is shaped like a trapezoid
-        water_width <- bottom_width + WL * (1/BS + 1/BS)
+    #From the overhang
+      stream_shade_overhang <- (1 / tan(solar_altitude)) * (overhang_height + BH - WL)*
+        sin(delta) + overhang - exposed_bank
+        stream_shade_overhang[stream_shade_overhang < 0] <- 0
 
-        perc_shade_bank <- (stream_shade_bank) / water_width
-          perc_shade_bank[perc_shade_bank > 1] <- 1
+    #Selecting the maximum and minimum
+      veg_shade_bound <- matrix(ncol = 2, c(stream_shade_top, stream_shade_overhang))
 
-        perc_shade_veg <- (stream_shade_veg_max - stream_shade_bank) / water_width
-          perc_shade_veg[perc_shade_veg > 1] <- 1
+    #Get max(shade from top, shade from overhang)
+    #Note, here I take a departure from the r_shade matlab code. For some reason the code
+    #Takes the maximum - min shadow length, but in the paper text it clearly states max
+    #See pg 14 Li et al. (2012)
+      stream_shade_veg_max <- apply(veg_shade_bound, 1, FUN = max)
 
-    return(c(perc_shade_bank, perc_shade_veg))
+      #If the maximum shadow length is longer than the wetted width, set to width
+        stream_shade_veg_max[stream_shade_veg_max > water_width] <- water_width
 
-  } #End shade_calc function
+  return(c(stream_shade_bank, stream_shade_veg_max)) #PS 2021
+
+} #End shade_calc function
