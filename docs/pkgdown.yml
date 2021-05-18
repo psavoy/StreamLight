@@ -1,0 +1,10 @@
+pandoc: 2.11.2
+pkgdown: 1.6.1
+pkgdown_sha: ~
+articles:
+  1 Download and process NLDAS: 1 Download and process NLDAS.html
+  2 Download and process MODIS LAI: 2 Download and process MODIS LAI.html
+  3 Using stream_light: 3 Using stream_light.html
+  4 Using aqua_light: 4 Using aqua_light.html
+last_built: 2021-05-18T19:53Z
+
