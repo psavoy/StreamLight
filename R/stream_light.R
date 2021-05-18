@@ -1,4 +1,4 @@
-#' Model to predict light at the stream surface#'
+#' Model to predict light at the stream surface
 #' @description A combination of the SHADE2 model (Li et al. 2012) and Campbell &
 #' Norman (1998) radiative transfer model
 #'

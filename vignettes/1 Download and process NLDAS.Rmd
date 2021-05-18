@@ -1,0 +1,80 @@
+---
+title: "1. Download and process NLDAS"
+author: "Phil Savoy"
+date: "5/17/2021"
+output: html_document
+---
+
+# Introduction
+
+This article describes downloading and processing total incoming shortwave radiation (W m^-2^) using the **StreamLightUtils** package. Total incoming shortwave radiation (W m^-2^) is provided by the National Land Data Assimilation System (NLDAS) at hourly timesteps at 0.125 degree spatial resolution. There are two potential workflows available: 1.) download data for a single site, and 2.) bulk download of data for many sites.
+
+## 1. Downloading and processing NLDAS data for a single site
+
+Incoming shortwave radiation data at a single site can be downloaded using the function **<span style="color:DarkOrange">NLDAS_DL</span>** which has the following structure:
+
+**<span style="color:DarkOrange">NLDAS_DL</span>**(*<span style="color:#009faf">save_dir</span>*, *<span style="color:#009faf">Site_ID</span>*, *<span style="color:#009faf">Lat</span>*, *<span style="color:#009faf">Lon</span>*, *<span style="color:#009faf">startDate</span>*)
+
+- *<span style="color:#009faf">save_dir</span>*  The save directory for the downloaded data to be placed in. For example, "C:/"
+- *<span style="color:#009faf">Site_ID</span>*  The site identifier ("Site_ID")
+- *<span style="color:#009faf">Lat</span>*  The site latitude
+- *<span style="color:#009faf">Lon</span>*  The site longitude
+- *<span style="color:#009faf">startDate</span>*  The start date for the downloaded data ("YYYY-MM-DD")
+
+Once the data has been downloaded it requires some processing to format date and time information and extract the relevant data. The downloaded NLDAS data can be processed using the function **<span style="color:DarkOrange">NLDAS_proc</span>** which has the following structure:
+
+**<span style="color:DarkOrange">NLDAS_proc</span>**(*<span style="color:#009faf">read_dir</span>*, *<span style="color:#009faf">Site_IDs</span>*)    
+
+- *<span style="color:#009faf">read_dir</span>*  The directory containing the downloaded NLDAS data
+- *<span style="color:#009faf">Site_IDs</span>*  The Site ID(s) ("Site_ID")
+  *<span style="color:#009faf">write_output</span>*  A logical value indicating whether the output should be written to disk (write_output = TRUE) or returned to the R environment (write_output = FALSE). The default value is FALSE since for most datasets this is a suitable approach; however, for very large datasets (thousands of sites) it may be easier to write files to disk instead of storing them in the workspace.
+- *<span style="color:#009faf">save_dir</span>*  An optional parameter to use only when write_output = TRUE that indicates the save directory for files to be placed in. For example, "C:/
+
+```{r echo=TRUE, results='hide', eval = FALSE}
+#Set the download location (add your own directory)
+  working_dir <- "C:/"
+    
+#Download NLDAS data at NC_NHC
+  NLDAS_DL(
+    save_dir = working_dir,
+    Site_ID = "NC_NHC",
+    Lat = 35.9925, 
+    Lon = -79.0460, 
+    startDate = "2017-01-01"
+  )
+  
+#Process the downloaded data
+  NLDAS_processed <- NLDAS_proc(
+    read_dir = working_dir, 
+    Site_IDs = "NC_NHC"
+  )
+```
+
+## 2. Downloading and processing NLDAS data for multiple sites
+
+Incoming shortwave radiation data at multiple sites can be downloaded using the function **<span style="color:DarkOrange">NLDAS_DL_bulk</span>** which has the following structure:
+
+ **<span style="color:DarkOrange">NLDAS_DL_bulk</span>**(*<span style="color:#009faf">save_dir</span>*, *<span style="color:#009faf">site_locs</span>*, *<span style="color:#009faf">startDate</span>*)
+
+- *<span style="color:#009faf">save_dir</span>*  The save directory for the downloaded data to be placed in. For example, "C:/"
+- *<span style="color:#009faf">site_locs</span>*  A table with Site_ID, Lat, and Lon, and startDate
+- *<span style="color:#009faf">startDate</span>*  An optional parameter. By default, if nothing is provided the function assumes that site_locs has a column that contains startDate. Alternatively, a single startDate can be provided as an argument for the download (YYYY-MM-DD)
+
+Recall from earlier that our table of site information has a column called **<span style="color:#009688">"startDate"</span>**, so here the optional parameter is not used. If data fails to download for a site, the **<span style="color:DarkOrange">NLDAS_DL_bulk</span>** function will automatically check and retry downloading data for all sites with  missing data. However, it is possible that data does not exist for a site. Consequently, it is prudent to confirm the successfully downloaded sites.
+
+```{r echo=TRUE, results='hide', eval = FALSE}
+#Read in a table with initial site information
+  sites <- data(NC_site_basic)
+
+#Download NLDAS data at NC_NHC
+  NLDAS_DL_bulk(
+    save_dir = working_dir,
+    site_locs = sites
+  )
+
+#List of successfully downloaded sites
+  NLDAS_list <- stringr::str_sub(list.files(working_dir), 1, -11)
+  
+#Processing the downloaded NLDAS data
+  NLDAS_processed <- StreamLightUtils::NLDAS_proc(read_dir = working_dir, NLDAS_list)
+```

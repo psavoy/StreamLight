@@ -2,7 +2,7 @@
 % Please edit documentation in R/stream_light.R
 \name{stream_light}
 \alias{stream_light}
-\title{Model to predict light at the stream surface#'}
+\title{Model to predict light at the stream surface}
 \usage{
 stream_light(
   driver_file,

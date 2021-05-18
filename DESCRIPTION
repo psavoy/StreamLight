@@ -1,11 +1,10 @@
 Package: StreamLight
 Type: Package
 Title: An R Package for Estimating Stream Lighting Conditions
-Version: 0.1.2
+Version: 0.2.0
 Date: 2021-1-15
-Author: Phil Savoy
-Description: This package contains a model for predicting light reaching the surface
-    of streams (StreamLight) as detailed in Savoy et al. (in review).
+Authors@R: person("Phil","Savoy", email = "psavoy@contractor.usgs.gov", role = c("aut","cre"))
+Description: This package contains two models to predict stream lighting conditions.The stream_light function, a
 License: CC0
 URL: https://github.com/psavoy/StreamLight
 Encoding: UTF-8
