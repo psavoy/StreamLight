@@ -64,13 +64,20 @@ can begin by making a request:
 
 Drag and drop site locations
 
-![](../docs/images/drag_and_drop.jpg)
+![Drag and drop in sites](../reference/figures/drag_and_drop.jpg)
 
-![](../docs/images/drag_and_drop_results.jpg)
+Drag and drop in sites
+
+![Drag and drop results](../reference/figures/drag_and_drop_results.jpg)
+
+Drag and drop results
 
 Example of request submission
 
-![](../docs/images/filled_request_submission.jpg)
+![Request
+submission](../reference/figures/filled_request_submission.jpg)
+
+Request submission
 
 Once everything is filled out submit the request. You will receive an
 email notification of the request and then a second notification when
@@ -134,6 +141,10 @@ mod_prepped <- appeears_prep(
 )
 ```
 
-![](../docs/images/NC_NHC_LAI_plot.png)
+![NC_NHC LAI](../reference/figures/NC_NHC_LAI_plot.png)
 
-![](../docs/images/NC_UEno_LAI_plot.png)
+NC_NHC LAI
+
+![NC_UEno LAI](../reference/figures/NC_UEno_LAI_plot.png)
+
+NC_UEno LAI

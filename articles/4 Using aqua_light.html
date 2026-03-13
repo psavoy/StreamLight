@@ -6,13 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>4. Using aqua_light • StreamLight</title>
-<!-- mathjax math --><script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script><script>
-  window.MathJax = {
-    chtml: {
-      fontURL: "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/output/chtml/fonts/woff-v2"
-    }
-  };
-</script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
@@ -22,7 +16,7 @@
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
-    <nav class="navbar navbar-expand-lg fixed-top " aria-label="Site navigation"><div class="container">
+    <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="light" aria-label="Site navigation"><div class="container">
 
     <a class="navbar-brand me-2" href="../index.html">StreamLight</a>
 
@@ -52,14 +46,6 @@
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json">
 </form></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/psavoy/StreamLight/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
-<li class="nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-lightswitch" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true" aria-label="Light switch"><span class="fa fa-sun"></span></button>
-  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-lightswitch">
-<li><button class="dropdown-item" data-bs-theme-value="light"><span class="fa fa-sun"></span> Light</button></li>
-    <li><button class="dropdown-item" data-bs-theme-value="dark"><span class="fa fa-moon"></span> Dark</button></li>
-    <li><button class="dropdown-item" data-bs-theme-value="auto"><span class="fa fa-adjust"></span> Auto</button></li>
-  </ul>
-</li>
       </ul>
 </div>
 
@@ -246,9 +232,10 @@ mean width for the date (4am to 3:59pm).</p>
 </h4>
 <p>To get a timeseries of irradiance attenuation coefficients
 (<em>K<sub>d</sub></em>) we developed an empirical log-log linear
-relationship between turbidity (FNU) and <em>K<sub>d</sub></em>: <span class="math display">\[
+relationship between turbidity (FNU) and <em>K<sub>d</sub></em>:
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>l</mi><mi>o</mi><mi>g</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>K</mi><mi>d</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mn>0.52</mn><mo>*</mo><mi>l</mi><mi>o</mi><mi>g</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mi>u</mi><mi>r</mi><mi>b</mi><mi>i</mi><mi>d</mi><mi>i</mi><mi>t</mi><mi>y</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mn>0.26</mn></mrow><annotation encoding="application/x-tex">
 log(K_d) = 0.52 * log(turbidity) - 0.26
-\]</span></p>
+</annotation></semantics></math></p>
 </div>
 </div>
 <div class="section level3">
@@ -264,13 +251,19 @@ derived measurements. The functions used to calculate shading <a href="https://w
 et al., 2012)</a> follow the convention where stream azimuth is measured
 clockwise from North. However, since both banks are parameterized
 identically in both <strong><span style="color:DarkOrange">stream_light</span></strong> and *<strong><span style="color:DarkOrange">aqua_light</span></strong>, this distinction is
-less relevant and an azimuth of 45<span class="math inline">\(^{\circ}\)</span> and 225<span class="math inline">\(^\circ\)</span> will yield the same results. We
-only mention this point in case future development may allow for
-parameterizing banks separately, or in case someone wanted to modify the
-code on their own to add in this functionality.</p>
+less relevant and an azimuth of
+45<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mo>∘</mo></msup><annotation encoding="application/x-tex">^{\circ}</annotation></semantics></math>
+and
+225<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mo>∘</mo></msup><annotation encoding="application/x-tex">^\circ</annotation></semantics></math>
+will yield the same results. We only mention this point in case future
+development may allow for parameterizing banks separately, or in case
+someone wanted to modify the code on their own to add in this
+functionality.</p>
 <p>Example of deriving azimuth, note the first azimuth of the first
-example is 45<span class="math inline">\(^\circ\)</span> whereas the
-second example is 315<span class="math inline">\(^\circ\)</span>.</p>
+example is
+45<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mo>∘</mo></msup><annotation encoding="application/x-tex">^\circ</annotation></semantics></math>
+whereas the second example is
+315<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mo>∘</mo></msup><annotation encoding="application/x-tex">^\circ</annotation></semantics></math>.</p>
 <p><img src="../docs/images/measuring_stream_azimuth.png"></p>
 </div>
 <div class="section level4">
@@ -432,8 +425,9 @@ Here, we predicted this based on the current turbidity using a log-log
 linear regression between <em>K<sub>d</sub></em> and turbidity that was
 derived from <em>in situ</em> measurements.</p></li>
 <li><p><strong><span style="color:#009688">“PAR_inc”</span></strong>:
-Incoming, above the canopy, PAR (<span class="math inline">\(\mu\)</span>mol m<em><sup>-2</sup>
-s<sup>-1</sup></em>)</p></li>
+Incoming, above the canopy, PAR
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>μ</mi><annotation encoding="application/x-tex">\mu</annotation></semantics></math>mol
+m<em><sup>-2</sup> s<sup>-1</sup></em>)</p></li>
 <li><p><strong><span style="color:#009688">“veg_shade”</span></strong>:
 The proportion of the channel crossection that is shaded by riparian
 vegetation</p></li>
@@ -441,20 +435,23 @@ vegetation</p></li>
 The proportion of the channel crossection that is shaded by stream
 banks</p></li>
 <li><p><strong><span style="color:#009688">“PAR_surface”</span></strong>: Estimated PAR at
-the stream surface (<span class="math inline">\(\mu\)</span>mol
+the stream surface
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>μ</mi><annotation encoding="application/x-tex">\mu</annotation></semantics></math>mol
 m<sup>-2</sup> s<sup>-1</sup>)</p></li>
 <li><p><strong><span style="color:#009688">“PAR_subsurface”</span></strong>: Estimated PAR
-below the stream surface (<span class="math inline">\(\mu\)</span>mol
+below the stream surface
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>μ</mi><annotation encoding="application/x-tex">\mu</annotation></semantics></math>mol
 m<sup>-2</sup> s<sup>-1</sup>)</p></li>
 <li><p><strong><span style="color:#009688">“PAR_water”</span></strong>:
 Estimated PAR at the benthic surface assuming optically clear water
-(<span class="math inline">\(\mu\)</span>mol m<sup>-2</sup>
-s<sup>-1</sup>)</p></li>
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>μ</mi><annotation encoding="application/x-tex">\mu</annotation></semantics></math>mol
+m<sup>-2</sup> s<sup>-1</sup>)</p></li>
 <li><p><strong><span style="color:#009688">“kd_water”</span></strong>:
 Irradiance attenuation coefficient for optically clear water</p></li>
 <li><p><strong><span style="color:#009688">“PAR_turb”</span></strong>:
-Estimated PAR at the benthic surface for turbid water (<span class="math inline">\(\mu\)</span>mol m<sup>-2</sup>
-s<sup>-1</sup>)</p></li>
+Estimated PAR at the benthic surface for turbid water
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>μ</mi><annotation encoding="application/x-tex">\mu</annotation></semantics></math>mol
+m<sup>-2</sup> s<sup>-1</sup>)</p></li>
 <li>
 <p><strong><span style="color:#009688">“kd_turb”</span></strong>:
 The irradiance attenuation coefficient for turbid water. This value is
@@ -477,39 +474,49 @@ clarity. Therefore, only these new processes are documented below.</p>
 <h4 id="water-surface-reflection">5.1 Water surface reflection<a class="anchor" aria-label="anchor" href="#water-surface-reflection"></a>
 </h4>
 <p>The proportion of incident light reflected by the surface of the
-water (<span class="math inline">\(R_l\)</span>) was calculated
-following Kirk et al. (2011):</p>
-<p><span class="math display">\[
-\begin{align*}R_l = \frac{1}{2} *  \frac{sin^2(\theta_a -
-\theta_w)}{sin^2(\theta_a + \theta_w)} + \frac{1}{2}
-*\frac{tan^2(\theta_a - \theta_w)}{tan^2(\theta_a +
-\theta_w)}\\\end{align*}
-\]</span></p>
-<p>where <span class="math inline">\(\theta_a\)</span> is the solar
-zenith angle and <span class="math inline">\(\theta_w\)</span> is the
-angle of refraction within the water. <span class="math inline">\(\theta_w\)</span> was calculated following Snell’s
-law: <span class="math display">\[
+water
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>R</mi><mi>l</mi></msub><annotation encoding="application/x-tex">R_l</annotation></semantics></math>)
+was calculated following Kirk et al. (2011):</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right"><msub><mi>R</mi><mi>l</mi></msub><mo>=</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><mo>*</mo><mfrac><mrow><mi>s</mi><mi>i</mi><msup><mi>n</mi><mn>2</mn></msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>θ</mi><mi>a</mi></msub><mo>−</mo><msub><mi>θ</mi><mi>w</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mi>s</mi><mi>i</mi><msup><mi>n</mi><mn>2</mn></msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>θ</mi><mi>a</mi></msub><mo>+</mo><msub><mi>θ</mi><mi>w</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac><mo>+</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><mo>*</mo><mfrac><mrow><mi>t</mi><mi>a</mi><msup><mi>n</mi><mn>2</mn></msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>θ</mi><mi>a</mi></msub><mo>−</mo><msub><mi>θ</mi><mi>w</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mi>t</mi><mi>a</mi><msup><mi>n</mi><mn>2</mn></msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>θ</mi><mi>a</mi></msub><mo>+</mo><msub><mi>θ</mi><mi>w</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"></mtd></mtr></mtable><annotation encoding="application/x-tex">
+\begin{align*}R_l = \frac{1}{2} *  \frac{sin^2(\theta_a - \theta_w)}{sin^2(\theta_a + \theta_w)} + \frac{1}{2} *\frac{tan^2(\theta_a - \theta_w)}{tan^2(\theta_a + \theta_w)}\\\end{align*}
+</annotation></semantics></math></p>
+<p>where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>θ</mi><mi>a</mi></msub><annotation encoding="application/x-tex">\theta_a</annotation></semantics></math>
+is the solar zenith angle and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>θ</mi><mi>w</mi></msub><annotation encoding="application/x-tex">\theta_w</annotation></semantics></math>
+is the angle of refraction within the water.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>θ</mi><mi>w</mi></msub><annotation encoding="application/x-tex">\theta_w</annotation></semantics></math>
+was calculated following Snell’s law:
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mrow><mi>s</mi><mi>i</mi><mi>n</mi><msub><mi>θ</mi><mi>a</mi></msub></mrow><mrow><mi>s</mi><mi>i</mi><mi>n</mi><msub><mi>θ</mi><mi>w</mi></msub></mrow></mfrac><mo>=</mo><mfrac><msub><mi>n</mi><mi>w</mi></msub><msub><mi>n</mi><mi>a</mi></msub></mfrac></mrow><annotation encoding="application/x-tex">
 \frac{sin \theta_a}{sin \theta_w}= \frac{n_w}{n_a}
-\]</span> where <span class="math inline">\(n_w\)</span> is the
-refractive index for water and <span class="math inline">\(n_a\)</span>
+</annotation></semantics></math> where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>n</mi><mi>w</mi></msub><annotation encoding="application/x-tex">n_w</annotation></semantics></math>
+is the refractive index for water and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>n</mi><mi>a</mi></msub><annotation encoding="application/x-tex">n_a</annotation></semantics></math>
 is the refractive index of water. Air and water have different
 refractive properties but a value of 1.33 for the ratio of the
 refractive indices of air to water is a good approximation for
 freshwater and the wavelengths of light within photosynthetically active
-radiation (PAR) (Kirk et al, 2011): <span class="math display">\[
+radiation (PAR) (Kirk et al, 2011):
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><msub><mi>n</mi><mi>w</mi></msub><msub><mi>n</mi><mi>a</mi></msub></mfrac><mo>=</mo><mn>1.33</mn></mrow><annotation encoding="application/x-tex">
 \frac{n_w}{n_a} = 1.33
-\]</span></p>
+</annotation></semantics></math></p>
 </div>
 <div class="section level4">
 <h4 id="water-column-light-extinction">5.2 Water column light extinction<a class="anchor" aria-label="anchor" href="#water-column-light-extinction"></a>
 </h4>
 <p>Within the water column light attenuates nonlinearly with depth which
-can be described using a Beer-Lambert equation: <span class="math display">\[
+can be described using a Beer-Lambert equation:
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>I</mi><mi>z</mi></msub><mo>=</mo><msub><mi>I</mi><mrow><mi>s</mi><mi>u</mi><mi>b</mi></mrow></msub><msup><mi>e</mi><mrow><mo>−</mo><msub><mi>K</mi><mi>d</mi></msub><mo>*</mo><mi>z</mi></mrow></msup></mrow><annotation encoding="application/x-tex">
 I_z = I_{sub}e^{-{K_d}*z}
-\]</span> where light at a given depth (<span class="math inline">\(I_z\)</span>) can be calculated using light just
-below the water surface (<span class="math inline">\(I_{sub}\)</span>),
-depth (<span class="math inline">\(z\)</span>), and the extinction
-coefficient (<span class="math inline">\(K_d\)</span>).</p>
+</annotation></semantics></math> where light at a given depth
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>I</mi><mi>z</mi></msub><annotation encoding="application/x-tex">I_z</annotation></semantics></math>)
+can be calculated using light just below the water surface
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>I</mi><mrow><mi>s</mi><mi>u</mi><mi>b</mi></mrow></msub><annotation encoding="application/x-tex">I_{sub}</annotation></semantics></math>),
+depth
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>z</mi><annotation encoding="application/x-tex">z</annotation></semantics></math>),
+and the extinction coefficient
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>K</mi><mi>d</mi></msub><annotation encoding="application/x-tex">K_d</annotation></semantics></math>).</p>
 </div>
 <div class="section level4">
 <h4 id="appendix-references">Appendix References<a class="anchor" aria-label="anchor" href="#appendix-references"></a>

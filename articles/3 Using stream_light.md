@@ -112,9 +112,10 @@ detail the same process used to extract parameter values from [Savoy et
 al. (2021)](https://www.journals.uchicago.edu/doi/10.1086/714270). To
 begin with, let’s revisit the parameters used:
 
-![A schematic of various input parameters.](../docs/images/diagram.png)
+![A schematic of various input
+parameters](../reference/figures/diagram.png)
 
-A schematic of various input parameters.
+A schematic of various input parameters
 
 - *Lat* The site latitude
 - *Lon* The site longitude
@@ -143,15 +144,18 @@ their conventions where stream azimuth is measured clockwise from North
 (see figure below). However, at present both banks are parameterized
 identically in **StreamLight** (e.g. only a single tree height is put in
 instead of the heights of trees on either bank) and so in reality a
-channel azimuth of 45\\^\circ\\ and 225\\^\circ\\ will yield the same
+channel azimuth of 45$^{\circ}$ and 225$^{\circ}$ will yield the same
 results. We only mention this point in case future development may allow
 for parameterizing banks separately, or in case someone wanted to modify
 the code on their own to add in this functionality.
 
 Example of deriving azimuth, note the first azimuth of the first example
-is 45\\^\circ\\ whereas the second example is 315\\^\circ\\.
+is 45$^{\circ}$ whereas the second example is 315$^{\circ}$.
 
-![](../docs/images/measuring_stream_azimuth.png)
+![Measuring stream
+azimuth](../reference/figures/measuring_stream_azimuth.png)
+
+Measuring stream azimuth
 
 ##### **Width (*bottom_width*)**
 
@@ -365,12 +369,12 @@ The columns are as follows:
 - **“LAI”**: MODIS leaf area index (m² m⁻²). **StreamLightUtils**
   provides tools to generate interpolated to daily values using the
   **AppEEARS_proc** function.
-- **“PAR_inc”**: Incoming PAR above the canopy (\\\mu\\mol m⁻² s⁻¹)
-- **“PAR_bc”**: Estimated PAR (\\\mu\\mol m⁻² s⁻¹) directly below the
+- **“PAR_inc”**: Incoming PAR above the canopy ($\mu$mol m⁻² s⁻¹)
+- **“PAR_bc”**: Estimated PAR ($\mu$mol m⁻² s⁻¹) directly below the
   canopy
 - **“veg_shade”**: The proportion of the channel crossection that is
   shaded by riparian vegetation
 - **“bank_shade”**: The proportion of the channel crossection that is
   shaded by stream banks
 - **“PAR_stream”**: The estimated PAR for the channel cross section
-  (\\\mu\\mol m⁻² s⁻¹)
+  ($\mu$mol m⁻² s⁻¹)

@@ -6,13 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>2. Download and process MODIS LAI • StreamLight</title>
-<!-- mathjax math --><script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script><script>
-  window.MathJax = {
-    chtml: {
-      fontURL: "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/output/chtml/fonts/woff-v2"
-    }
-  };
-</script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
@@ -22,7 +16,7 @@
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
-    <nav class="navbar navbar-expand-lg fixed-top " aria-label="Site navigation"><div class="container">
+    <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="light" aria-label="Site navigation"><div class="container">
 
     <a class="navbar-brand me-2" href="../index.html">StreamLight</a>
 
@@ -52,14 +46,6 @@
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json">
 </form></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/psavoy/StreamLight/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
-<li class="nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-lightswitch" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true" aria-label="Light switch"><span class="fa fa-sun"></span></button>
-  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-lightswitch">
-<li><button class="dropdown-item" data-bs-theme-value="light"><span class="fa fa-sun"></span> Light</button></li>
-    <li><button class="dropdown-item" data-bs-theme-value="dark"><span class="fa fa-moon"></span> Dark</button></li>
-    <li><button class="dropdown-item" data-bs-theme-value="auto"><span class="fa fa-adjust"></span> Auto</button></li>
-  </ul>
-</li>
       </ul>
 </div>
 
@@ -144,10 +130,16 @@ might download LAI data from 2022-2024.</li>
 all of the layers to the selected layers.</li>
 </ul>
 <p>Drag and drop site locations</p>
-<p><img src="../docs/images/drag_and_drop.jpg"></p>
-<p><img src="../docs/images/drag_and_drop_results.jpg"></p>
+<div class="float">
+<img src="../reference/figures/drag_and_drop.jpg" alt="Drag and drop in sites"><div class="figcaption">Drag and drop in sites</div>
+</div>
+<div class="float">
+<img src="../reference/figures/drag_and_drop_results.jpg" alt="Drag and drop results"><div class="figcaption">Drag and drop results</div>
+</div>
 <p>Example of request submission</p>
-<p><img src="../docs/images/filled_request_submission.jpg"></p>
+<div class="float">
+<img src="../reference/figures/filled_request_submission.jpg" alt="Request submission"><div class="figcaption">Request submission</div>
+</div>
 <p>Once everything is filled out submit the request. You will receive an
 email notification of the request and then a second notification when
 the download is ready. Downloads are typically ready the same day or
@@ -221,8 +213,12 @@ is the new fitted, interpolated, daily LAI.</p>
 <span>  fit_method <span class="op">=</span> <span class="st">"Gu"</span>, </span>
 <span>  plot <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="../docs/images/NC_NHC_LAI_plot.png"></p>
-<p><img src="../docs/images/NC_UEno_LAI_plot.png"></p>
+<div class="float">
+<img src="../reference/figures/NC_NHC_LAI_plot.png" alt="NC_NHC LAI"><div class="figcaption">NC_NHC LAI</div>
+</div>
+<div class="float">
+<img src="../reference/figures/NC_UEno_LAI_plot.png" alt="NC_UEno LAI"><div class="figcaption">NC_UEno LAI</div>
+</div>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

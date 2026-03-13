@@ -121,7 +121,8 @@ the date (4am to 3:59pm).
 
 To get a timeseries of irradiance attenuation coefficients (*K_(d)*) we
 developed an empirical log-log linear relationship between turbidity
-(FNU) and *K_(d)*: \\ log(K_d) = 0.52 \* log(turbidity) - 0.26 \\
+(FNU) and *K_(d)*:
+$$log\left( K_{d} \right) = 0.52*log(turbidity) - 0.26$$
 
 ### 3. Preparing a parameter file
 
@@ -135,13 +136,13 @@ measurements. The functions used to calculate shading [(Li et al.,
 follow the convention where stream azimuth is measured clockwise from
 North. However, since both banks are parameterized identically in both
 **stream_light** and \***aqua_light**, this distinction is less relevant
-and an azimuth of 45\\^{\circ}\\ and 225\\^\circ\\ will yield the same
+and an azimuth of 45$^{\circ}$ and 225$^{\circ}$ will yield the same
 results. We only mention this point in case future development may allow
 for parameterizing banks separately, or in case someone wanted to modify
 the code on their own to add in this functionality.
 
 Example of deriving azimuth, note the first azimuth of the first example
-is 45\\^\circ\\ whereas the second example is 315\\^\circ\\.
+is 45$^{\circ}$ whereas the second example is 315$^{\circ}$.
 
 ![](../docs/images/measuring_stream_azimuth.png)
 
@@ -309,7 +310,7 @@ The modeled output contains the following columns:
   the current turbidity using a log-log linear regression between
   *K_(d)* and turbidity that was derived from *in situ* measurements.
 
-- **“PAR_inc”**: Incoming, above the canopy, PAR (\\\mu\\mol m*⁻² s⁻¹*)
+- **“PAR_inc”**: Incoming, above the canopy, PAR ($\mu$mol m*⁻² s⁻¹*)
 
 - **“veg_shade”**: The proportion of the channel crossection that is
   shaded by riparian vegetation
@@ -317,20 +318,20 @@ The modeled output contains the following columns:
 - **“bank_shade”**: The proportion of the channel crossection that is
   shaded by stream banks
 
-- **“PAR_surface”**: Estimated PAR at the stream surface (\\\mu\\mol m⁻²
+- **“PAR_surface”**: Estimated PAR at the stream surface ($\mu$mol m⁻²
   s⁻¹)
 
-- **“PAR_subsurface”**: Estimated PAR below the stream surface
-  (\\\mu\\mol m⁻² s⁻¹)
+- **“PAR_subsurface”**: Estimated PAR below the stream surface ($\mu$mol
+  m⁻² s⁻¹)
 
 - **“PAR_water”**: Estimated PAR at the benthic surface assuming
-  optically clear water (\\\mu\\mol m⁻² s⁻¹)
+  optically clear water ($\mu$mol m⁻² s⁻¹)
 
 - **“kd_water”**: Irradiance attenuation coefficient for optically clear
   water
 
 - **“PAR_turb”**: Estimated PAR at the benthic surface for turbid water
-  (\\\mu\\mol m⁻² s⁻¹)
+  ($\mu$mol m⁻² s⁻¹)
 
 - **“kd_turb”**: The irradiance attenuation coefficient for turbid
   water. This value is predicted based on the current turbidity using a
@@ -350,30 +351,31 @@ new processes are documented below.
 #### 5.1 Water surface reflection
 
 The proportion of incident light reflected by the surface of the water
-(\\R_l\\) was calculated following Kirk et al. (2011):
+($R_{l}$) was calculated following Kirk et al. (2011):
 
-\\ \begin{align\*}R_l = \frac{1}{2} \* \frac{sin^2(\theta_a -
-\theta_w)}{sin^2(\theta_a + \theta_w)} + \frac{1}{2}
-\*\frac{tan^2(\theta_a - \theta_w)}{tan^2(\theta_a +
-\theta_w)}\\\end{align\*} \\
+$$\begin{array}{r}
+{R_{l} = \frac{1}{2}*\frac{sin^{2}\left( \theta_{a} - \theta_{w} \right)}{sin^{2}\left( \theta_{a} + \theta_{w} \right)} + \frac{1}{2}*\frac{tan^{2}\left( \theta_{a} - \theta_{w} \right)}{tan^{2}\left( \theta_{a} + \theta_{w} \right)}} \\
 
-where \\\theta_a\\ is the solar zenith angle and \\\theta_w\\ is the
-angle of refraction within the water. \\\theta_w\\ was calculated
-following Snell’s law: \\ \frac{sin \theta_a}{sin \theta_w}=
-\frac{n_w}{n_a} \\ where \\n_w\\ is the refractive index for water and
-\\n_a\\ is the refractive index of water. Air and water have different
-refractive properties but a value of 1.33 for the ratio of the
-refractive indices of air to water is a good approximation for
-freshwater and the wavelengths of light within photosynthetically active
-radiation (PAR) (Kirk et al, 2011): \\ \frac{n_w}{n_a} = 1.33 \\
+\end{array}$$
+
+where $\theta_{a}$ is the solar zenith angle and $\theta_{w}$ is the
+angle of refraction within the water. $\theta_{w}$ was calculated
+following Snell’s law:
+$$\frac{sin\theta_{a}}{sin\theta_{w}} = \frac{n_{w}}{n_{a}}$$ where
+$n_{w}$ is the refractive index for water and $n_{a}$ is the refractive
+index of water. Air and water have different refractive properties but a
+value of 1.33 for the ratio of the refractive indices of air to water is
+a good approximation for freshwater and the wavelengths of light within
+photosynthetically active radiation (PAR) (Kirk et al, 2011):
+$$\frac{n_{w}}{n_{a}} = 1.33$$
 
 #### 5.2 Water column light extinction
 
 Within the water column light attenuates nonlinearly with depth which
-can be described using a Beer-Lambert equation: \\ I_z =
-I\_{sub}e^{-{K_d}\*z} \\ where light at a given depth (\\I_z\\) can be
-calculated using light just below the water surface (\\I\_{sub}\\),
-depth (\\z\\), and the extinction coefficient (\\K_d\\).
+can be described using a Beer-Lambert equation:
+$$I_{z} = I_{sub}e^{- K_{d}*z}$$ where light at a given depth ($I_{z}$)
+can be calculated using light just below the water surface ($I_{sub}$),
+depth ($z$), and the extinction coefficient ($K_{d}$).
 
 #### Appendix References
 
