@@ -87,7 +87,7 @@ Let's take a moment to examine the final structure of the driver file
 
 There are several site parameters required to run **<span style="color:DarkOrange">stream_light</span>**; however, not all of these parameters have built in functions within **StreamLightUtils**. Similarly, not all parameters are easily obtained nor will they all have equal importance for model performance. Here, we detail the same process used to extract parameter values from [Savoy et al. (2021)](https://www.journals.uchicago.edu/doi/10.1086/714270). To begin with, let's revisit the parameters used:
    
-![A schematic of various input parameters.](../docs/images/diagram.png)
+![A schematic of various input parameters](../man/figures/diagram.png)
    
 
 - *<span style="color:#009faf">Lat</span>* The site latitude
@@ -118,7 +118,7 @@ Currently there is no functionality to derive stream azimuth within **StreamLigh
 
 Example of deriving azimuth, note the first azimuth of the first example is 45$^\circ$ whereas the second example is 315$^\circ$.      
 
-![](../docs/images/measuring_stream_azimuth.png)  
+![Measuring stream azimuth](../man/figures/measuring_stream_azimuth.png)
 
 #### **Width (*<span style="color:#009faf">bottom_width</span>*)**
 

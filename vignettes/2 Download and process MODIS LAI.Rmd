@@ -3,6 +3,8 @@ title: "2. Download and process MODIS LAI"
 author: "Phil Savoy"
 date: "3/12/2026"
 output: html_document
+resource_files:
+  - man/figures/drag_and_drop.jpg
 ---
 
 # Introduction
@@ -46,13 +48,18 @@ Once you have registered and exported a table of site information, you can begin
 
 Drag and drop site locations
 
-![](../docs/images/drag_and_drop.jpg)
 
-![](../docs/images/drag_and_drop_results.jpg)
+![Drag and drop in sites](../man/figures/drag_and_drop.jpg)
+
+
+
+
+
+![Drag and drop results](../man/figures/drag_and_drop_results.jpg)
 
 Example of request submission
 
-![](../docs/images/filled_request_submission.jpg)
+![Request submission](../man/figures/filled_request_submission.jpg)
   
 
 Once everything is filled out submit the request. You will receive an email notification of the request and then a second notification when the download is ready. Downloads are typically ready the same day or within a day or two depending on the size of the request. For reference, the request in this example only took a few minutes the complete.
@@ -99,6 +106,6 @@ mod_prepped <- appeears_prep(
 )
 ```
 
-![](../docs/images/NC_NHC_LAI_plot.png)
+![NC_NHC LAI](../man/figures/NC_NHC_LAI_plot.png)
 
-![](../docs/images/NC_UEno_LAI_plot.png)
+![NC_UEno LAI](../man/figures/NC_UEno_LAI_plot.png)
