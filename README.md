@@ -30,19 +30,19 @@ Individual articles go into depth on each of the following subjects.
 **Outline**
 
 1. **Download and process NLDAS incoming shortwave radiation**
-
+   
    Covers downloading and processing National Land Data Assimilation System (NLDAS) total incoming shortwave radiation (W m<sup>-2</sup>) using the **StreamLightUtils** package.
 
 2. **Download and process MODIS LAI**
-
+   
    Covers downloading and processing MODIS leaf area index (LAI, m<sup>2</sup> m<sup>-2</sup>) using the **StreamLightUtils** package.
 
 3. **Using <span style="color:DarkOrange">stream_light</span>**
-
+   
    Covers the creation of driver files, a parameter file, and running **<span style="color:DarkOrange">stream_light</span>**.  
 
 4. **Using <span style="color:DarkOrange">aqua_light</span>**
-
+   
    Covers the creation of driver files, a parameter file, and running **<span style="color:DarkOrange">aqua_light</span>**.  
 
 # 3. Getting started
@@ -66,11 +66,3 @@ Before beginning, Load the **StreamLightUtils** and **StreamLight** libraries.
 library("StreamLightUtils")
 library("StreamLight")
 ```
-
-
-
-
-
-
-
-

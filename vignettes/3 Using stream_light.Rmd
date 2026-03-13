@@ -1,7 +1,7 @@
 ---
 title: "3. Using stream_light"
 author: "Phil Savoy"
-date: "5/17/2021"
+date: "3/13/2026"
 output: html_document
 ---
 
@@ -57,8 +57,8 @@ A driver file with the same structure as above can be made using the **<span sty
 
 - *<span style="color:#009faf">site_locs</span>* A table with Site_ID, Lat, and Lon, and the coordinate reference system designated as an EPSG code. 
   For example, the most common geographic system is WGS84 and its EPSG code is 4326
-- *<span style="color:#009faf">NLDAS_processed</span>* Output from the **<span style="color:DarkOrange">NLDAS_proc</span>** function (from **StreamLightUtils**)
-- *<span style="color:#009faf">MOD_processed</span>* Output from the **<span style="color:DarkOrange">AppEEARS_proc</span>** function (from **StreamLightUtils**)
+- *<span style="color:#009faf">nldas_prepped</span>* Output from the **<span style="color:DarkOrange">nldas_prep</span>** function (from **StreamLightUtils**)
+- *<span style="color:#009faf">modis_prepped</span>* Output from the **<span style="color:DarkOrange">appeears_prep</span>** function (from **StreamLightUtils**)
 - *<span style="color:#009faf">write_output</span>* Logical value to indicate whether to write each individual driver file to disk. Default value is FALSE.
 - *<span style="color:#009faf">save_dir</span>* Optional parameter when write_output = TRUE. The save directory for files to be placed in. For example, "C:/
 
@@ -66,8 +66,10 @@ A driver file with the same structure as above can be made using the **<span sty
 #Make the driver files
 make_driver(
   site_locs = sites,
-  NLDAS_processed = NLDAS_processed,
-  MOD_processed = MOD_processed
+  nldas_prepped = nldas_prepped,
+  modis_prepped = mod_prepped,
+  write_output = TRUE,
+  save_dir = here::here("output")
 )
 ```
 
@@ -75,7 +77,7 @@ Let's take a moment to examine the final structure of the driver file
 
 ```{r, echo=TRUE, eval = FALSE}
 #Read in a driver file
-  data(NC_NHC_driver)
+  data("NC_NHC_driver", package = "StreamLight")
   head(NC_NHC_driver)
 ```
 
@@ -104,7 +106,7 @@ To run the model on multiple sites it is easiest to construct a table of paramet
 
 ```{r, echo=FALSE, eval = FALSE}
 #Load the example parameter file
-  data(NC_params)
+  data("NC_params", package = "StreamLight") 
   head(NC_params, n = 2)
 ```
 
@@ -151,11 +153,24 @@ Although this parameter file already contains tree height, the following is an e
 ```{r, echo=TRUE, eval = FALSE}
 #Extract tree height
   extract_height(
+    Site_ID = "NC_NHC", 
+    Lat = 35.9925,
+    Lon = -79.046,
+    site_crs = 4326
+  )
+
+#Or iterate over multiple sites
+  mapply(
+    FUN = extract_height,
     Site_ID = NC_params[, "Site_ID"], 
     Lat = NC_params[, "Lat"],
     Lon = NC_params[, "Lon"],
-    site_crs = NC_params[, "epsg_crs"]
-  )
+    site_crs = NC_params[, "epsg_crs"],
+    simard2011 = simard2011,
+    SIMPLIFY = TRUE
+  ) |>
+    t() |>
+    as.data.frame()
 ```
 
 #### **Maximum canopy overhang (*<span style="color:#009faf">overhang</span>*)**
@@ -204,7 +219,7 @@ To run the model for a single site simply add the parameters to the function.
 
 ```{r, echo = TRUE, eval = FALSE}
 #Load the example driver file for NC_NHC
-  data(NC_NHC_driver)
+  data("NC_NHC_driver", package = "StreamLight")
 
 #Run the model
   NC_NHC_modeled <- stream_light(
@@ -229,12 +244,12 @@ It is also possible to then loop over multiple sites by wrapping the model in an
 
 ```{r, echo=TRUE, results = 'hide', eval = FALSE}
 #Function for batching over multiple sites
-  batch_model <- function(Site, read_dir, save_dir){
+  batch_model <- function(Site, parameters, read_dir){
     #Get the model driver
-      driver_file <- readRDS(paste(read_dir, "/", Site, "_driver.rds", sep = ""))
-
+      driver_file <- readRDS(here::here(read_dir, paste0(Site, "_driver.rds")))
+      
     #Get model parameters for the site
-      site_p <- params[params[, "Site_ID"] == Site, ]
+      site_p <- parameters[parameters[, "Site_ID"] == Site, ]
 
     #Run the model
       modeled <- stream_light(
@@ -252,25 +267,22 @@ It is also possible to then loop over multiple sites by wrapping the model in an
         x_LAD = site_p[, "x"]
       )
 
-    #Save the output
-      saveRDS(modeled, paste(save_dir, "/", Site, "_predicted.rds", sep = ""))
+    return(modeled)
 
   } #End batch_model 
 
-#Applying the model to all sites
-  model_rd <- working_dir
-  model_sd <- working_dir
-
 #Running the model
-  lapply(
-    params[, "Site_ID"], 
+  modeled_light <- lapply(
+    NC_params[, "Site_ID"], 
     FUN = batch_model, 
-    read_dir = model_rd,
-    save_dir = model_sd
-  ) 
+    parameters = NC_params,
+    read_dir = here::here("output")
+  )
+  
+  names(modeled_light) <- NC_params[, "Site_ID"]
 
 #Take a look at the output
-  data(NC_NHC_predicted)
+  data("NC_NHC_predicted", package = "StreamLight")
   NC_NHC_predicted[1:2, ]
 ```
 
