@@ -1,4 +1,11 @@
 url: https://psavoy.github.io/StreamLight/
 template:
   bootstrap: 5
+  math-rendering: mathjax
+  light-switch: yes
+  bslib:
+    primary: '#0054AD'
+    border-radius: 0.5rem
+    btn-border-radius: 0.25rem
+    danger: '#A6081A'
 
